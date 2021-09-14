@@ -1,15 +1,10 @@
 nbproject/
-assets/filemanager/config/config.php
-application/config/config.php
-application/admin/config/config.php
 
-application/config/database.php
-application/admin/config/database.php
+
+
+
 application/logs/
 application/admin/logs/
-upload/*
-.htaccess
-admin/.htaccess
 other-ref-data/*
 ./ipn_errors.log
 application/views/themes/default/compiled/*
