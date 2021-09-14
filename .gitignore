@@ -2,8 +2,7 @@ nbproject/
 assets/filemanager/config/config.php
 application/config/config.php
 application/admin/config/config.php
-.htaccess
-admin/.htaccess
+
 application/config/database.php
 application/admin/config/database.php
 application/logs/
