@@ -2,51 +2,59 @@
 
 defined('BASEPATH') or exit('No direct script access allowed.');
 
-class Filter extends Cms_Controller {
+class Filter extends Cms_Controller
+{
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
         $this->load->model('Categorymodel');
         $this->load->model('catalog/Productmodel');
         $this->load->library('mypagination');
     }
-    
-    function index(){
+
+    function index_n()
+    {
+        e($_POST);
         $selected_attribute_options = $this->input->post('selected_attribute_options');
         $category_id = $this->input->post('category_id');
         $products = array();
         $inner = array();
         $page = array();
-        
+
         $filtered_pids = $this->Productmodel->getCategoryFilteredProducts($category_id, $selected_attribute_options);
+        e($filtered_pids);
         $products = $this->Productmodel->listByCategory($category_id, false, false, $filtered_pids, false);
-        if($products){
+        e($products);
+        if ($products) {
             $inner['products'] = $products;
             $page['category_id'] = $category_id;
-            $page ['html'] = $this->load->view('filtered-products', $inner, true);
+            $page['html'] = $this->load->view('filtered-products', $inner, true);
             echo json_encode($page);
             exit();
-        }else{
+        } else {
             $page['html'] = "<p class='text-center' style='color:red;'>no-record</p>";
             echo json_encode($page);
             exit();
         }
     }
 
-    function index_OLD($uri) {
+    function index($uri)
+    {
+
         $uri = $this->input->post('url');
         $selected_min_price = 0;
         $category_id = $this->input->post('category_id');
         $c_alias = $this->input->post('category_alias');
         $url_options = explode('~', $uri);
-        $url_options = array_map(function($item) {
+        $url_options = array_map(function ($item) {
             return rawurldecode($item);
         }, $url_options);
         $catURl = $url_options[0];
         $total_products = 0;
         unset($url_options[0]);
         $out = $products = $pagination_string = $options = $other_options = array();
-        foreach ($url_options as $url_option):
+        foreach ($url_options as $url_option) :
             if (strpos($url_option, 'page-') === false) {
                 $pagination_string[] = $url_option;
             }
@@ -59,8 +67,7 @@ class Filter extends Cms_Controller {
                 $url_option = $this->Productmodel->getAttributeValueIdByName($url_option, $attr['type']);
                 // e($url_option,0);
                 $options[$attr['id']] = $url_option;
-            }
-            else {
+            } else {
                 $other_options[$tmp[0]] = $tmp[1];
             }
         endforeach;
@@ -70,7 +77,7 @@ class Filter extends Cms_Controller {
             'selected_max_price' => isset($other_options['maxprice']) ? $other_options['maxprice'] : 0,
             'offset' => isset($other_options['page']) ? $other_options['page'] : 0,
         ];
-        $perpage = isset($other_options['perpage']) ? $other_options['perpage'] : 16;
+        $perpage = isset($other_options['perpage']) ? $other_options['perpage'] : 1;
         if ($options || $extra['selected_min_price'] || $extra['selected_max_price']) {
             $out = $this->Productmodel->getCategoryFiltersProducts($category_id, $options, $extra);
         }
@@ -78,6 +85,7 @@ class Filter extends Cms_Controller {
             $products = $this->Productmodel->listByCategory($category_id, $extra['offset'], $perpage, $out, false);
             $total_products = $this->Productmodel->listByCategoryCount($category_id, $out);
         }
+
         if ($products) {
             // Get first page of products matching filter criteria.
             if ($pagination_string) {
@@ -143,7 +151,7 @@ class Filter extends Cms_Controller {
             $page['category_id'] = $category_id;
             $page['displaying_records'] = "Displaying $start_offset  -  $end_offset  of  $total_products Products";
             $page['pagination'] = $this->mypagination->create_links();
-            $page ['html'] = $this->load->view('filtered-products', $inner, true);
+            $page['html'] = $this->load->view('filtered-products', $inner, true);
             echo json_encode($page);
             exit();
         } else {
@@ -155,7 +163,8 @@ class Filter extends Cms_Controller {
         }
     }
 
-    function index_back($offset = 0) {
+    function index_back($offset = 0)
+    {
         // e($offset);
         // e($_POST);
         // e($_POST,0);
@@ -193,7 +202,7 @@ class Filter extends Cms_Controller {
             $config['uri_segment'] = 4;
             $config['total_rows'] = $this->Productmodel->countByCategory($category_id, $filteredProductIds = FALSE);
             $config['per_page'] = $perpage;
-//                e($config);
+            //                e($config);
             //config for bootstrap pagination class integration
             $config['full_tag_open'] = '<ul class="pagination" style="display:inline-block;">';
             $config['full_tag_close'] = '</ul>';
@@ -221,7 +230,7 @@ class Filter extends Cms_Controller {
             $page = array();
             $page['attr_name_basket'] = $attr_name_basket;
             $page['pagination'] = $this->mypagination->create_links();
-            $page ['html'] = $this->load->view('filtered-products', $inner, true);
+            $page['html'] = $this->load->view('filtered-products', $inner, true);
 
             echo json_encode($page);
             exit();
@@ -231,7 +240,7 @@ class Filter extends Cms_Controller {
             $category = end($category);
             unset($url_options[0]);
             $pagination_string = $options = $other_options = array();
-            foreach ($url_options as $url_option):
+            foreach ($url_options as $url_option) :
                 if (strpos($url_option, 'page-') === false) {
                     $pagination_string[] = $url_option;
                 }
@@ -244,8 +253,7 @@ class Filter extends Cms_Controller {
                     $url_option = explode(',', $tmp[1]);
                     $url_option = $this->Productmodel->getAttributeValueIdByName($url_option, $attr['type']);
                     $options[$attr['id']] = $url_option;
-                }
-                else {
+                } else {
                     $other_options[$tmp[0]] = $tmp[1];
                 }
             endforeach;
@@ -319,7 +327,7 @@ class Filter extends Cms_Controller {
                 $page['category_id'] = $category_id;
                 $page['pagination'] = $this->mypagination->create_links();
                 $page['attr_name_basket'] = $attr_name_basket;
-                $page ['html'] = $this->load->view('filtered-products', $inner, true);
+                $page['html'] = $this->load->view('filtered-products', $inner, true);
                 $page['selectedAttr'] = [];
                 echo json_encode($page);
                 exit();
@@ -334,14 +342,15 @@ class Filter extends Cms_Controller {
         }
     }
 
-    function brand($uri) {
+    function brand($uri)
+    {
         $uri = $this->input->post('url');
         $bid = $this->input->post('bid');
         $brand_alias = $this->input->post('brand_alias');
 
         $c_alias = $uri;
         $url_options = explode('~', $uri);
-        $url_options = array_map(function($item) {
+        $url_options = array_map(function ($item) {
             return rawurldecode($item);
         }, $url_options);
 
@@ -349,7 +358,7 @@ class Filter extends Cms_Controller {
         $total_products = 0;
         unset($url_options[0]);
         $out = $products = $pagination_string = $options = $other_options = array();
-        foreach ($url_options as $url_option):
+        foreach ($url_options as $url_option) :
             if (strpos($url_option, 'page-') === false) {
                 $pagination_string[] = $url_option;
             }
@@ -362,8 +371,7 @@ class Filter extends Cms_Controller {
                 $url_option = $this->Productmodel->getAttributeValueIdByName($url_option, $attr['type']);
                 // e($url_option,0);
                 $options[$attr['id']] = $url_option;
-            }
-            else {
+            } else {
                 $other_options[$tmp[0]] = $tmp[1];
             }
         endforeach;
@@ -431,7 +439,7 @@ class Filter extends Cms_Controller {
             $page['bid'] = $bid;
             $page['displaying_records'] = "Displaying $start_offset  -  $end_offset  of  $total_products Products";
             $page['pagination'] = $this->mypagination->create_links();
-            $page ['html'] = $this->load->view('filtered-products', $inner, true);
+            $page['html'] = $this->load->view('filtered-products', $inner, true);
             echo json_encode($page);
             exit();
         } else {
@@ -442,7 +450,4 @@ class Filter extends Cms_Controller {
             exit();
         }
     }
-
 }
-
-?>

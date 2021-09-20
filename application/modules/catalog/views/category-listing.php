@@ -1,23 +1,3 @@
-<style>
-    .cat-banner {
-        font-size: 25px;
-    }
-
-    .red-color {
-        color: red;
-    }
-</style>
-
-<?php if (file_exists($this->config->item('CATEGORY_BANNER_PATH') . $category['category_banner']) && $category['category_banner']) { ?>
-    <section id="page-banner-section">
-        <div class="container-fluid">
-            <div class="col-xs-12 null-padding">
-                <img src="<?php echo $this->config->item('CATEGORY_BANNER_URL') . $category['category_banner'] ?>" class="img-responsive" />
-            </div>
-        </div>
-    </section>
-<?php } ?>
-
 <section id="bredcrumbs">
     <div class=" container-fluid site-container">
         <div class="col-xs-12 product_main_div null-padding">
@@ -63,10 +43,6 @@ if ($sub_categories) {
                                     </div>
                                     <div class="single-category-col-descr-col">
                                         <p class="single-category-heading"><?php echo $item['name'] ?></p>
-                                        <div class="col-xs-12 single-category-description null-padding">
-                                            <?php echo word_limiter(strip_tags($item['description']), 15); ?>
-                                        </div>
-                                        <a href="<?php echo base_url() . $item['uri'] ?>" class="site-outline-btn">View Products</a>
                                     </div>
                                 </a>
                             </div>

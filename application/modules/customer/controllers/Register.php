@@ -81,7 +81,7 @@ class Register extends Cms_Controller
         $this->form_validation->set_rules('last_name', 'last name', 'trim|required');
         $this->form_validation->set_rules('email', 'email', 'trim|required|strtolower|valid_email|callback_email_check');
         $this->form_validation->set_rules('location', 'Location', 'trim|required');
-        $this->form_validation->set_rules('company_name', 'company', 'trim|required');
+        // $this->form_validation->set_rules('company_name', 'company', 'trim|required');
 
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|matches[password]');

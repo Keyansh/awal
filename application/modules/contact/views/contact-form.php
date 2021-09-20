@@ -123,17 +123,17 @@
                         </div>
                     </div>
 
-                    <div class="simple-div col-xs-12">
+                    <!-- <div class="simple-div col-xs-12">
                         <li>
                             <label for="Company">Company</label>
                             <input type="text" name="company" class="simple-text" value="<?= set_value('company'); ?>">
                         </li>
-                    </div>
+                    </div> -->
 
                     <div class="message_div col-xs-12">
                         <li>
-                            <label for="Message">Location</label>
-                            <input type="text" name="location" class="simple-text" value="<?= set_value('location'); ?>">
+                            <label for="Message">message</label>
+                            <input type="text" name="message" class="simple-text" value="<?= set_value('message'); ?>">
                         </li>
                     </div>
                     <div class="contact-cstm-checkbox col-xs-12">
@@ -142,12 +142,12 @@
                             <span class="checkmark"></span>
                         </label>
                     </div>
-                    <div class="join-cstm-checkbox col-xs-12 form-group">
+                    <!-- <div class="join-cstm-checkbox col-xs-12 form-group">
                         <label class="containerContact"> Agree to join our mailing list
                             <input type="checkbox" value="1" name="join_mail_list" checked="checked">
                             <span class="checkmark"></span>
                         </label>
-                    </div>
+                    </div> -->
                     <div class="recaptcha-form-div col-xs-12 form-group">
                         <div class="g-recaptcha cap-width-100" data-sitekey="<?= DWS_RECAPTCHA_SITE_KEY ?>"></div>
                     </div>

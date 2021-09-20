@@ -197,10 +197,10 @@
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 tab-pane-inner-small-col tab-right-col">
                         <div class="login-form">
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="contact-label">Company*</label>
                                 <input class="form-control" id="exampleInputEmail1" placeholder="Company" value="<?= set_value('company_name') ?>" name="company_name" type="text">
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label class="contact-label">Location*</label>
                                 <input class="form-control" id="" placeholder="Location" value="<?= set_value('location') ?>" name="location" type="text">

@@ -25,7 +25,7 @@
         echo $CI->html->menu($params);
         ?>
     </div>
-<!--    <div id="paypal"><img src="images/img-paypal.png" /></div>-->
+    <!--    <div id="paypal"><img src="images/img-paypal.png" /></div>-->
     <div class="clearfix"></div>
     <!--    <div class="home_about_services_container">
             <ul class="leftbar_servies_quality_info_list" style="padding: 0;">
@@ -39,7 +39,7 @@
     <?php
     $cururi = uri_string();
     if ($cururi == 'catalog/services') {
-        ?>
+    ?>
         <h1><?php echo $category['category']; ?></h1>
         <?php echo $category['category_desc']; ?>
         <p></p>
@@ -48,16 +48,22 @@
             $i = 0;
             foreach ($sub_categories as $row) {
                 $i++;
-                ?>
+            ?>
                 <div class="product<?php echo alternator("", " product_right", " product_right", " product_right"); ?>">
                     <div class="product_img">
                         <a href="catalog/<?php echo $row['category_alias']; ?>">
-                            <img width="100" 
-                                 src="<?php
-                                 echo resize($this->config->item('CATEGORY_PATH') . $row['category_image'], 136, 144, 'category', $this->config->item('CATEGORY_PATH') . $row['category_image'], array('img_url' => 'images/logo.png', 'height' => 144, 'width' => 136, 'photoset_id' => 'logo')
-                                 );
-                                 ?>" alt="<?php echo $row['category']; ?>" />
-                        </a></div>
+                            <img width="100" src="<?php
+                                                    echo resize(
+                                                        $this->config->item('CATEGORY_PATH') . $row['category_image'],
+                                                        136,
+                                                        144,
+                                                        'category',
+                                                        $this->config->item('CATEGORY_PATH') . $row['category_image'],
+                                                        array('img_url' => 'images/logo.png', 'height' => 144, 'width' => 136, 'photoset_id' => 'logo')
+                                                    );
+                                                    ?>" alt="<?php echo $row['category']; ?>" />
+                        </a>
+                    </div>
                     <div class="product_text">
                         <h3><?php echo substr($row['category'], 0, 40) ?><?php echo (strlen($row['category']) > 40) ? '..' : "" ?></h3>
                         <p> <?php echo strip_tags(word_limiter($row['category_desc'], 20)); ?></p>
@@ -90,18 +96,25 @@
             $i = 0;
             foreach ($sub_categories as $row) {
                 $i++;
-                ?>
+            ?>
                 <div class="product<?php echo alternator("", " product_right", " product_right", " product_right"); ?>">
                     <div class="product_img">
-                        <a href="catalog/<?php echo $row['category_alias']; ?>">                            
-                            <img width="100" 
-                                 src="<?php
-        echo resize($this->config->item('CATEGORY_PATH') . $row['category_image'], 100, 100, 'category'
-                , $this->config->item('CATEGORY_PATH') . $row['category_image'], array('img_url' => 'images/logo.png',
-            'height' => 100, 'width' => 100, 'photoset_id' => 'logo')
-        );
-                ?>" alt="<?php echo $row['category']; ?>" />
-                        </a></div>
+                        <a href="catalog/<?php echo $row['category_alias']; ?>">
+                            <img width="100" src="<?php
+                                                    echo resize(
+                                                        $this->config->item('CATEGORY_PATH') . $row['category_image'],
+                                                        100,
+                                                        100,
+                                                        'category',
+                                                        $this->config->item('CATEGORY_PATH') . $row['category_image'],
+                                                        array(
+                                                            'img_url' => 'images/logo.png',
+                                                            'height' => 100, 'width' => 100, 'photoset_id' => 'logo'
+                                                        )
+                                                    );
+                                                    ?>" alt="<?php echo $row['category']; ?>" />
+                        </a>
+                    </div>
                     <div class="product_text">
                         <h3><?php echo substr($row['category'], 0, 40) ?><?php echo (strlen($row['category']) > 40) ? '..' : "" ?></h3>
                         <p> <?php echo strip_tags(word_limiter($row['category_desc'], 20)); ?></p>
@@ -119,4 +132,3 @@
         </div>
     <?php } ?>
 </div>
-
