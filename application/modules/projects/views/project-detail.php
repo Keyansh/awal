@@ -16,7 +16,6 @@
             <ul class="breadcrumb about_page">
                 <li><a href="<?= base_url() ?>">Home</a></li>
                 <li><a href="<?= base_url() . '/' . $page['page_alias'] ?>"><?= $page['title'] ?></a></li>
-                <!-- <li><a href="<?= base_url() . '/' . $getProjectCategory['name'] ?>"><?= $getProjectCategory['name'] ?></a></li> -->
                 <li class="active"><a href="javascript:void(0)"><?= $project['projects_title'] ?></a></li>
             </ul>
         </div>
@@ -106,44 +105,39 @@
     </section>
 <?php } ?>
 
-<?php if ($project['is_like_active'] == 1) { ?>
-    <?php if ($getProductUsed) { ?>
-        <section id="architectural-section">
-            <div class="container-fluid site-container">
-                <div class="architectural-section col-xs-12 padding-zero">
-                    <p class="hardware-consort-heading">Products used in this project</p>
-                    <div id="category-slider" class="owl-carousel owl-theme col-xs-12">
-                        <?php foreach ($getProductUsed as $item) { ?>
-                            <div class="item">
-                                <div class="hardware-product-div">
-                                    <?php if (!$this->session->userdata('CUSTOMER_ID')) { ?>
-                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#logInPop">
-                                        <?php } elseif ($this->session->userdata('CUSTOMER_ID')) { ?>
-                                            <a href="<?= $item['uri'] ?>" class="userlog" data-type="product" data-id="<?php echo $item['id'] ?>">
-                                            <?php } ?>
 
-                                            <div class="hardware-inner-div">
-                                                <?php
-                                                $getproductMainImage = getproductMainImage($item['id']);
-                                                if (file_exists($this->config->item('PRODUCT_PATH') . $getproductMainImage['img']) && $getproductMainImage['img']) {
-                                                    $image_url = resize($this->config->item('PRODUCT_PATH') . $getproductMainImage['img'], 314, 419, 'product-listing-img');
-                                                } else {
-                                                    $image_url = resize(FCPATH . 'images/img-default.jpg', 314, 419, 'product-listing-img');
-                                                }
-                                                ?>
-                                                <img src="<?= $image_url ?>" alt="banner-alt" class="img-responsive">
-                                            </div>
-                                            <p class="hardware-product-text"><?= $item['name'] ?></p>
-                                            </a>
-                                </div>
+<?php if ($getProductUsed) { ?>
+    <section id="architectural-section">
+        <div class="container-fluid site-container">
+            <div class="architectural-section col-xs-12 padding-zero">
+                <p class="hardware-consort-heading">Products used in this project</p>
+                <div id="category-slider" class="owl-carousel owl-theme col-xs-12">
+                    <?php foreach ($getProductUsed as $item) { ?>
+                        <div class="item">
+                            <div class="hardware-product-div">
+                                <a href="<?= $item['uri'] ?>" class="userlog" data-type="product" data-id="<?php echo $item['id'] ?>">
+                                    <div class="hardware-inner-div">
+                                        <?php
+                                        $getproductMainImage = getproductMainImage($item['id']);
+                                        if (file_exists($this->config->item('PRODUCT_PATH') . $getproductMainImage['img']) && $getproductMainImage['img']) {
+                                            $image_url = resize($this->config->item('PRODUCT_PATH') . $getproductMainImage['img'], 314, 419, 'product-listing-img');
+                                        } else {
+                                            $image_url = resize(FCPATH . 'images/img-default.jpg', 314, 419, 'product-listing-img');
+                                        }
+                                        ?>
+                                        <img src="<?= $image_url ?>" alt="banner-alt" class="img-responsive">
+                                    </div>
+                                    <p class="hardware-product-text"><?= $item['name'] ?></p>
+                                </a>
                             </div>
-                        <?php } ?>
-                    </div>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
-        </section>
-    <?php } ?>
+        </div>
+    </section>
 <?php } ?>
+
 
 <script>
     $(document).ready(function() {

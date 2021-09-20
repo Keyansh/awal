@@ -106,14 +106,14 @@ class Projects extends Module_Controller
         $project_img = array();
         $project_img = $this->Projectmodel->getImg($project['projects_id']);
 
-        $getProjectCategory = array();
-        $getProjectCategory = $this->Projectmodel->getProjectCategory($project['project_cat']);
+        // $getProjectCategory = array();
+        // $getProjectCategory = $this->Projectmodel->getProjectCategory($project['project_cat']);
 
         $getProductUsed = array();
         $getProductUsed = $this->Projectmodel->getProductUsed($project['projects_id']);
 
-        $projectDynamicFields = array();
-        $projectDynamicFields = $this->Projectmodel->projectDynamicFields($project['projects_id']);
+        // $projectDynamicFields = array();
+        // $projectDynamicFields = $this->Projectmodel->projectDynamicFields($project['projects_id']);
 
 
 
@@ -130,9 +130,9 @@ class Projects extends Module_Controller
         $inner['project'] = $project;
         $inner['page'] = $page;
         $inner['project_img'] = $project_img;
-        $inner['getProjectCategory'] = $getProjectCategory;
+        // $inner['getProjectCategory'] = $getProjectCategory;
         $inner['getProductUsed'] = $getProductUsed;
-        $inner['projectDynamicFields'] = $projectDynamicFields;
+        // $inner['projectDynamicFields'] = $projectDynamicFields;
         $shell = array();
         $shell['contents'] = $this->load->view('project-detail', $inner, true);
         $this->load->view("themes/" . THEME . "/templates/default", $shell);
