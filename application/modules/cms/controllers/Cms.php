@@ -297,7 +297,7 @@ class Cms extends Cms_Controller
         $brand_by_product = $products = $out = [];
         $total_products = 0;
 
-        $perpage = isset($other_options['perpage']) ? $other_options['perpage'] : 1;
+        $perpage = isset($other_options['perpage']) ? $other_options['perpage'] : 2;
         if ($options || $extra['selected_min_price'] || $extra['selected_max_price']) {
             $out = $this->Productmodel->getCategoryFiltersProducts($category['id'], $options, $extra);
         }

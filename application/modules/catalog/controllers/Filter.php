@@ -42,6 +42,7 @@ class Filter extends Cms_Controller
     function index($uri)
     {
 
+
         $uri = $this->input->post('url');
         $selected_min_price = 0;
         $category_id = $this->input->post('category_id');
@@ -77,7 +78,7 @@ class Filter extends Cms_Controller
             'selected_max_price' => isset($other_options['maxprice']) ? $other_options['maxprice'] : 0,
             'offset' => isset($other_options['page']) ? $other_options['page'] : 0,
         ];
-        $perpage = isset($other_options['perpage']) ? $other_options['perpage'] : 1;
+        $perpage = isset($other_options['perpage']) ? $other_options['perpage'] : 2;
         if ($options || $extra['selected_min_price'] || $extra['selected_max_price']) {
             $out = $this->Productmodel->getCategoryFiltersProducts($category_id, $options, $extra);
         }

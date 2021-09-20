@@ -180,10 +180,12 @@ if ($sub_categories) {
             urlShouldChange = true;
         }
         if (urlParameters.perpage) {
+            console.log(urlParameters.perpage);
+            console.log(123);
             URL += "~perpage-" + urlParameters.perpage;
             urlShouldChange = true;
         }
-        if (urlParameters.page > 1) {
+        if (urlParameters.page > 0) {
             URL += "~page-" + urlParameters.page;
             urlShouldChange = true;
         }
