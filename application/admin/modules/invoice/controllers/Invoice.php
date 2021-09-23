@@ -6,18 +6,22 @@ $file_location = dirname(FCPATH) . '/application/third_party/mpdf/vendor/autoloa
 
 require_once $file_location;
 
-class Invoice extends Admin_Controller {
+class Invoice extends Admin_Controller
+{
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
         $this->load->model('invoicemodel');
     }
 
-    function index($order_num) {
+    function index($order_num)
+    {
         $result = $this->invoicemodel->generateInvoice($order_num);
     }
 
-    function order_pdf($order_id) {
+    function order_pdf($order_id)
+    {
         $inner = array();
         $inner = $this->invoicemodel->order_details($order_id);
         $html = $this->load->view('order-pdf', $inner, true);
@@ -28,5 +32,4 @@ class Invoice extends Admin_Controller {
         $filename = 'order.pdf';
         $this->m_pdf->pdf->Output($filename, "D");
     }
-
 }

@@ -7,9 +7,11 @@ if (!defined('BASEPATH'))
 
 use Intervention\Image\ImageManager;
 
-class Order extends Admin_Controller {
+class Order extends Admin_Controller
+{
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
         $this->load->helper('text');
         $this->load->library('form_validation');
@@ -19,10 +21,11 @@ class Order extends Admin_Controller {
         $this->is_admin_protected = TRUE;
     }
 
-    function index() {
+    function index()
+    {
         $quotations = array();
         $quotations = $this->Ordermodel->allQuotations();
-//        e($quotations);
+        //        e($quotations);
         $inner = array();
         $page = array();
         $inner['quotations'] = $quotations;
@@ -31,8 +34,9 @@ class Order extends Admin_Controller {
     }
 
     //Function Add Product
-    function add() {
-//        e($_POST);
+    function add()
+    {
+        //        e($_POST);
         $this->load->model('Ordermodel');
         $this->load->model('user/Userprofilemodel');
 
@@ -45,7 +49,7 @@ class Order extends Admin_Controller {
 
         $users = array();
         $users = $this->Ordermodel->userList();
-//        e($users);
+        //        e($users);
         $inner = array();
         $page = array();
         $inner['users'] = $users;
@@ -54,7 +58,8 @@ class Order extends Admin_Controller {
         $this->load->view('shell', $page);
     }
 
-    function products_list($cid) {
+    function products_list($cid)
+    {
         $result = $this->Ordermodel->getCategoryProducts($cid);
         if ($result) {
             $result = json_encode($result);
@@ -62,7 +67,8 @@ class Order extends Admin_Controller {
         }
     }
 
-    function selectedUser() {
+    function selectedUser()
+    {
         $response = array();
         $response['msg'] = "";
         $response['status'] = "";
@@ -82,7 +88,7 @@ class Order extends Admin_Controller {
             return false;
         }
 
-//        $this->Ordermodel->setUserSession();
+        //        $this->Ordermodel->setUserSession();
         $response['status'] = 'success';
         $response['html'] = "User id for quick order is $user_id";
         $response['userid'] = $user_id;
@@ -91,7 +97,8 @@ class Order extends Admin_Controller {
         echo json_encode($response);
     }
 
-    function selectedProduct() {
+    function selectedProduct()
+    {
 
         $response = array();
         $response['msg'] = "";
@@ -121,7 +128,8 @@ class Order extends Admin_Controller {
         exit;
     }
 
-    function view($qid) {
+    function view($qid)
+    {
         $quotation = $quotation_items = array();
         $quotation = $this->Ordermodel->fetchById($qid);
         $quotation_items = $this->Ordermodel->OrderedItem($qid);
@@ -148,7 +156,8 @@ class Order extends Admin_Controller {
         $this->load->view('shell', $page);
     }
 
-    function delete($qid) {
+    function delete($qid)
+    {
         $quotation = $quotation_items = array();
         $quotation = $this->Ordermodel->fetchById($qid);
         $quotation_items = $this->Ordermodel->OrderedItem($qid);
@@ -156,15 +165,16 @@ class Order extends Admin_Controller {
             $this->utility->show404();
             return;
         }
-//        e($quotation,0);
-//        e($quotation_items);
+        //        e($quotation,0);
+        //        e($quotation_items);
         $this->Ordermodel->deleteRecord($qid);
         $this->session->set_flashdata('SUCCESS', 'quotation_deleted');
         redirect('order');
         exit();
     }
 
-    function allorders($filter = 0, $filter1 = 0) {
+    function allorders($filter = 0, $filter1 = 0)
+    {
         $orders = $order_status = array();
         $orders = $this->Ordermodel->all_orders($filter, $filter1);
         $order_status = $this->Ordermodel->listAllStatus(1);
@@ -177,14 +187,15 @@ class Order extends Admin_Controller {
         $this->load->view('shell', $page);
     }
 
-    function viewOrder($oid) {
+    function viewOrder($oid)
+    {
         $order = $order_items = $order_detail = $order_status = array();
         $order = $this->Ordermodel->orderById($oid);
         $order_items = $this->Ordermodel->orderItemById($oid);
         $this->load->model('catalog/productmodel');
         foreach ($order_items as $key => $item) {
             $images = $this->productmodel->productImages($item['product_id']);
-            $images = array_map(function($img) {
+            $images = array_map(function ($img) {
                 return $img['img'];
             }, $images);
             $order_items[$key]['images'] = $images;
@@ -206,7 +217,8 @@ class Order extends Admin_Controller {
         $this->load->view('shell', $page);
     }
 
-    function deleteOrder($oid) {
+    function deleteOrder($oid)
+    {
         $order = $order_items = array();
         $order = $this->Ordermodel->orderById($oid);
         $order_items = $this->Ordermodel->orderItemById($oid);
@@ -220,7 +232,8 @@ class Order extends Admin_Controller {
         exit();
     }
 
-    function image($order_item_id, $orient) {
+    function image($order_item_id, $orient)
+    {
         $orient = urldecode($orient);
         $order_item = $this->Ordermodel->orderItemByItemId($order_item_id);
         $product_img_url = $this->config->item('ORDER_URL') . $order_item['order_id'] . '/product_images//';
@@ -229,7 +242,7 @@ class Order extends Admin_Controller {
         $product_logo_path = $this->config->item('ORDER_PATH') . $order_item['order_id'] . '/logo_images//';
         $orientations = json_decode($order_item['order_item_orientation'], true);
         // ee($orientations);
-        foreach ($orientations as $product_img => $orientations):
+        foreach ($orientations as $product_img => $orientations) :
             if ($orient != $product_img) {
                 continue;
             }
@@ -237,7 +250,7 @@ class Order extends Admin_Controller {
             $manager = new ImageManager(array('driver' => 'gd'));
             $image = $manager->make($image_file)->resize(375, 460);
             // ee($manager);
-            foreach ($orientations as $orientation):
+            foreach ($orientations as $orientation) :
                 // ee($orientation);
                 $img = explode('/', $orientation['img']);
                 $img = end($img);
@@ -256,7 +269,8 @@ class Order extends Admin_Controller {
         endforeach;
     }
 
-    function uploadedImage($order_item_id, $orient, $index) {
+    function uploadedImage($order_item_id, $orient, $index)
+    {
         $orient = urldecode($orient);
         $order_item = $this->Ordermodel->orderItemByItemId($order_item_id);
         $product_img_url = $this->config->item('ORDER_URL') . $order_item['order_id'] . '/product_images//';
@@ -282,11 +296,12 @@ class Order extends Admin_Controller {
         echo $image->response('png');
     }
 
-    function abandonorders() {
+    function abandonorders()
+    {
         $abandonorder = $emailtemplate = array();
         $abandonorder = $this->Ordermodel->allAbandonOrder();
         $emailtemplate = $this->Ordermodel->emailTemplate();
-//        ee($emailtemplate);
+        //        ee($emailtemplate);
         $inner = array();
         $page = array();
         $inner['orders'] = $abandonorder;
@@ -295,14 +310,15 @@ class Order extends Admin_Controller {
         $this->load->view('shell', $page);
     }
 
-    function viewAbandonOrder($oid) {
+    function viewAbandonOrder($oid)
+    {
         $order = $order_items = $user_detail = array();
         $order = $this->Ordermodel->abandonOrderById($oid);
         $order_items = $this->Ordermodel->abandonOrderItemById($oid);
         $this->load->model('catalog/productmodel');
         foreach ($order_items as $key => $item) {
             $images = $this->productmodel->productImages($item['product_id']);
-            $images = array_map(function($img) {
+            $images = array_map(function ($img) {
                 return $img['img'];
             }, $images);
             $order_items[$key]['images'] = $images;
@@ -318,12 +334,13 @@ class Order extends Admin_Controller {
         $inner['order'] = $order;
         $inner['user_detail'] = $user_detail;
         $inner['order_items'] = $order_items;
-//        ee($inner);
+        //        ee($inner);
         $page['content'] = $this->load->view('abandon-order-view', $inner, TRUE);
         $this->load->view('shell', $page);
     }
 
-    function deleteAbandonOrder($oid) {
+    function deleteAbandonOrder($oid)
+    {
         $order = $order_items = array();
         $order = $this->Ordermodel->abandonOrderById($oid);
         $order_items = $this->Ordermodel->abandonOrderItemById($oid);
@@ -337,7 +354,8 @@ class Order extends Admin_Controller {
         exit();
     }
 
-    function croneSave() {
+    function croneSave()
+    {
         $this->load->library('form_validation');
         $this->load->model('ordermodel');
         $this->load->library('email');
@@ -372,7 +390,8 @@ class Order extends Admin_Controller {
         echo json_encode($response);
     }
 
-    function export_orders_csv() {
+    function export_orders_csv()
+    {
         $from_date = $this->input->post('from_date');
         $till_date = $this->input->post('till_date');
         $order_status = $this->input->post('order_status');
@@ -424,10 +443,10 @@ class Order extends Admin_Controller {
                         AND date(br_order.order_date) <= "' . $till_date . '"' . $where;
 
 
-//        e( $sql );
+        //        e( $sql );
 
         $rs = $this->db->query($sql);
-//e($rs);
+        //e($rs);
         $file_download = '';
 
         if ($rs->num_rows()) {
@@ -451,14 +470,16 @@ class Order extends Admin_Controller {
         exit;
     }
 
-    function multi_order_pdf() {
+    function multi_order_pdf()
+    {
         $arr = $this->input->post('arr');
         $arr = json_decode($arr);
 
         $this->session->set_flashdata('multiorder_pdf', $arr);
     }
 
-    function multi_order_pdf_download() {
+    function multi_order_pdf_download()
+    {
         $this->load->library('M_pdf');
         $arr = $this->session->flashdata('multiorder_pdf');
 
@@ -482,7 +503,8 @@ class Order extends Admin_Controller {
         }
     }
 
-    function orderstatus() {
+    function orderstatus()
+    {
         $orderstatus = array();
         $orderstatus = $this->Ordermodel->listAllStatus();
 
@@ -493,7 +515,8 @@ class Order extends Admin_Controller {
         $this->load->view('shell', $page);
     }
 
-    function add_status() {
+    function add_status()
+    {
         $this->load->library('form_validation');
         $this->load->helper('form');
 
@@ -515,7 +538,8 @@ class Order extends Admin_Controller {
         }
     }
 
-    function edit_status($id) {
+    function edit_status($id)
+    {
         $this->load->library('form_validation');
         $this->load->helper('form');
 
@@ -544,7 +568,8 @@ class Order extends Admin_Controller {
         }
     }
 
-    function enable_status($id) {
+    function enable_status($id)
+    {
         $status = array();
         $status = $this->Ordermodel->getstatusdetails($id);
         if (!$status) {
@@ -562,7 +587,8 @@ class Order extends Admin_Controller {
         exit();
     }
 
-    function disable_status($id) {
+    function disable_status($id)
+    {
         $status = array();
         $status = $this->Ordermodel->getstatusdetails($id);
         if (!$status) {
@@ -580,8 +606,9 @@ class Order extends Admin_Controller {
         exit();
     }
 
-    function update_status() {
-//        $all_userdata = $this->session->all_userdata();
+    function update_status()
+    {
+        //        $all_userdata = $this->session->all_userdata();
         $status = array();
         $ostatus = $this->input->post('ostatus');
         $oid = $this->input->post('oid');
@@ -603,7 +630,4 @@ class Order extends Admin_Controller {
         echo json_encode($status);
         exit;
     }
-
 }
-
-?>

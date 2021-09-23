@@ -24,6 +24,16 @@ class Register extends Cms_Controller
         }
         return true;
     }
+    function email_phone($str)
+    {
+        $this->db->where('phone', $str);
+        $query = $this->db->get('user');
+        if ($query->num_rows()) {
+            $this->form_validation->set_message('email_phone', 'Phone already in use');
+            return false;
+        }
+        return true;
+    }
 
     function valid_phone_number_or_empty()
     {
@@ -80,6 +90,7 @@ class Register extends Cms_Controller
         $this->form_validation->set_rules('first_name', 'first name', 'trim|required');
         $this->form_validation->set_rules('last_name', 'last name', 'trim|required');
         $this->form_validation->set_rules('email', 'email', 'trim|required|strtolower|valid_email|callback_email_check');
+        $this->form_validation->set_rules('phone', 'Phone', 'trim|required|numeric|callback_email_phone|callback_valid_phone_number_or_empty');
         $this->form_validation->set_rules('location', 'Location', 'trim|required');
         // $this->form_validation->set_rules('company_name', 'company', 'trim|required');
 
